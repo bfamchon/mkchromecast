@@ -7,6 +7,7 @@ from mkchromecast.utils import terminate, check_url
 from mkchromecast.version import __version__
 from mkchromecast.resolution import resolutions
 import argparse
+import os
 import os.path
 import sys
 import platform
@@ -188,6 +189,16 @@ parser.add_argument(
     Use this option if you want to know the friendly name of a Google Cast
     device.
     '''
+    )
+
+parser.add_argument(
+    "--display",
+    type=str,
+    default=os.environ.get("DISPLAY", ":0"),
+    help="""
+    Set the DISPLAY for screen captures.  Defaults to current environment
+    value of DISPLAY or ':0' if DISPLAY is unset.
+    """,
     )
 
 parser.add_argument(
@@ -644,6 +655,7 @@ if args.update is True:
 Check that encoders exist in the list
 """
 screencast = args.screencast
+display = args.display
 
 backends = [
     'node',

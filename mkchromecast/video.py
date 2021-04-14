@@ -38,6 +38,7 @@ debug = mkchromecast.__init__.debug
 sourceurl = mkchromecast.__init__.sourceurl
 encoder_backend = mkchromecast.__init__.backend
 screencast = mkchromecast.__init__.screencast
+display = mkchromecast.__init__.display
 port = mkchromecast.__init__.port
 
 try:
@@ -75,7 +76,7 @@ elif screencast is True:
             '-f', 'x11grab',
             '-r', '25',
             '-s', screen_size,
-            '-i', ':0.0+0,0',
+            '-i', "{}+0,0".format(display),
             '-vcodec', 'libx264',
             '-preset', 'ultrafast',
             '-tune', 'zerolatency',
