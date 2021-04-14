@@ -40,9 +40,11 @@ class mk(object):
         self.control = mkchromecast.__init__.control
 
         self.cc = Casting()
+        print('Casting() done')
         checkmktmp()
+        print('checkmktmp() done')
         writePidFile()
-
+        print('writePidFile() done')
         """
         Initializing backend array
         """
@@ -54,13 +56,17 @@ class mk(object):
           ]
 
         self.check_connection()
+        print('check_connection() done')
         if self.tray is False and self.videoarg is False:
+            print('tray false and video arg false')
             if self.platform == 'Linux':
+                print('... and platform Linux')
                 self.audio_linux()
             else:
                 self.audio_macOS()
         elif self.tray is False and self.videoarg is True:
             self.cast_video()
+            print('cast_video() done')
         else:
             self.start_tray()
 
