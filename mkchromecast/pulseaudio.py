@@ -54,7 +54,7 @@ def remove_sink():
 
 def check_sink():
     try:
-        check_sink = ["pacmd", "list-sinks"]
+        check_sink = ["pactl", "list", "sinks"]
         chk = subprocess.Popen(
             check_sink, stdout=subprocess.PIPE, stderr=subprocess.PIPE
         )
@@ -78,18 +78,18 @@ def get_sink_list():
     """Get a list of sinks with a name prefix of Mkchromecast and save to _sink_num.
 
     Used to clear any residual sinks from previous failed actions. The number
-    saved to _sink_num is the module index, which can be passed to pacmd.
+    saved to _sink_num is the module index, which can be passed to pactl.
     """
     global _sink_num
 
-    cmd = ["pacmd", "list-sinks"]
+    cmd = ["pactl", "list", "sinks"]
     result = subprocess.run(
         cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=60, check=True
     )
 
     pattern = re.compile(
-        r"\s*?index:\s*?\d+\s*$\s*?name:\s*?<Mkchromecast.*>"
-        + r"\s*?$(?:\n^.*?$)*?\n^\s*?module: (?P<module>\d+?)\s*?$",
+        r"^Sink\s*#\d+\s*$(?:\n^.*?$)*?\n\s*?Name:\s*?Mkchromecast.*"
+        + r"\s*?$(?:\n^.*?$)*?\n^\s*?Owner Module: (?P<module>\d+?)\s*?$",
         re.MULTILINE,
     )
     matches = pattern.findall(result.stdout.decode("utf-8"), re.MULTILINE)
